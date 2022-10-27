@@ -3,29 +3,15 @@
 	<br><br>
 </p>
 
-This project comes as a pre-built docker image that enables you to easily forward to your websites
-running at home or otherwise, including free SSL, without having to know too much about Nginx or Letsencrypt.
+This project is to deploy nginx-proxy-manager on synology with docker-compose.
 
 
 ## Project Goal
 
-I created this project to fill a personal need to provide users with a easy way to accomplish reverse
-proxying hosts with SSL termination and it had to be so easy that a monkey could do it. This goal hasn't changed.
-While there might be advanced options they are optional and the project should be as simple as possible
-so that the barrier for entry here is low.
+I created this project to use docker-compose instead of the built in docker GUI
 
 
-## Features
-
-- Beautiful and Secure Admin Interface based on [Tabler](https://tabler.github.io/)
-- Easily create forwarding domains, redirections, streams and 404 hosts without knowing anything about Nginx
-- Free SSL using Let's Encrypt or provide your own custom SSL certificates
-- Access Lists and basic HTTP Authentication for your hosts
-- Advanced Nginx configuration available for super users
-- User management, permissions and audit log
-
-
-## Hosting your home network
+## Home network setup
 
 I won't go in to too much detail here but here are the basics for someone new to this self-hosted world.
 
@@ -44,18 +30,32 @@ I won't go in to too much detail here but here are the basics for someone new to
 2. Create a docker-compose.yml file similar to this:
 
 ```yml
-version: '3'
+version: "3.3"
 services:
-  app:
-    image: 'jc21/nginx-proxy-manager:latest'
-    restart: unless-stopped
-    ports:
-      - '80:80'
-      - '81:81'
-      - '443:443'
-    volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
+    web:
+        image: jc21/nginx-proxy-manager
+        container_name: npm
+        environment:
+            - PUID=1026
+            - PGID=100
+            - TZ=America/Los_Angeles
+        volumes:
+            - /volume1/docker/npm/config.json:/app/config/production.json
+            - /volume1/docker/npm/data:/data
+            - /volume1/docker/npm/letsencrypt:/etc/letsencrypt
+        networks:
+            default:
+                ipv4_address: 192.168.254.222
+        ports:
+            - 80:80
+            - 443:443
+            - 81:81
+        restart: always
+
+networks:
+  default:
+    external:
+      name: macvlan-br0
 ```
 
 3. Bring up your stack by running
