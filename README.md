@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://nginxproxymanager.com/github.png">19
+	<img src="https://nginxproxymanager.com/github.png">
 	<br><br>
 </p>
 
