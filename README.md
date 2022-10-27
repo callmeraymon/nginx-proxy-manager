@@ -8,7 +8,7 @@ This project is to deploy nginx-proxy-manager with docker-compose on Synology.
 
 ## Project Goal
 
-I created this project to use docker-compose instead of the built in docker GUI. I also wanted NGINX to have the ability to proxy other devices on my network.
+I created this project to use docker-compose instead of the built in docker GUI. I also wanted NGINX to have the ability to proxy other devices on my network. Which is achieved with a macvlan network bridge.
 
 
 ## Requirements
