@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://nginxproxymanager.com/github.png">
+	<b>NGINX on Synology</b>
 	<br><br>
 </p>
 
