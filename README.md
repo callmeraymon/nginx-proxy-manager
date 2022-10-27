@@ -3,7 +3,7 @@
 	<br><br>
 </p>
 
-This project is to deploy nginx-proxy-manager on synology with docker-compose.
+This project is to deploy nginx-proxy-manager with docker-compose on Synology.
 
 
 ## Project Goal
@@ -43,7 +43,7 @@ sudo docker network create -d macvlan-br0 -o parent=eth0 --subnet=192.168.254.0/
 - /volume1/docker/npm/letsencrypt
 
 00. create file /volume1/docker/npm/config.json
-```
+```json
 {
   "database": {
     "engine": "knex-native",
