@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://nginxproxymanager.com/github.png">
+	<img src="https://nginxproxymanager.com/github.png">19
 	<br><br>
 </p>
 
@@ -8,35 +8,56 @@ This project is to deploy nginx-proxy-manager on synology with docker-compose.
 
 ## Project Goal
 
-I created this project to use docker-compose instead of the built in docker GUI
+I created this project to use docker-compose instead of the built in docker GUI. I also wanted NGINX to have the ability to proxy other devices on my network.
 
 
-## Home network setup
+## Requirements
 
-I won't go in to too much detail here but here are the basics for someone new to this self-hosted world.
+- Add port forwarding for port 80 and 443 to the server hosting this project, 192.168.254.222
+- Configure DNS for nginx proxy manager
+- Ability to SSH into DSM
 
-1. Your home router will have a Port Forwarding section somewhere. Log in and find it
-2. Add port forwarding for port 80 and 443 to the server hosting this project
-3. Configure your domain name details to point to your home, either with a static ip or a service like DuckDNS or [Amazon Route53](https://github.com/jc21/route53-ddns)
-4. Use the Nginx Proxy Manager as your gateway to forward to your other web based services
+## Setup
 
-## Quick Setup
-
-1. Install Docker and Docker-Compose
+00. Install Docker and Docker-Compose
 
 - [Docker Install documentation](https://docs.docker.com/install/)
 - [Docker-Compose Install documentation](https://docs.docker.com/compose/install/)
 
-2. Create the following file structure within your docker root, typically, /volume1/docker/
+00. Find the default network device for your Synology NAS
+```bash
+ifconfig
+```
+
+00. Create macvlan network
+
+```bash
+sudo docker network create -d macvlan-br0 -o parent=eth0 --subnet=192.168.254.0/24 --gateway=192.168.254.1 --ip-range=192.168.254.198/26 npm_network
+```
+
+
+00. Create the following file structure within your docker root, typically, /volume1/docker/
 
 - /volume1/docker/npm/
 - /volume1/docker/npm/data
 - /volume1/docker/npm/letsencrypt
 
-3. create file /volume1/docker/npm/config.json
+00. create file /volume1/docker/npm/config.json
+```
+{
+  "database": {
+    "engine": "knex-native",
+    "knex": {
+      "client": "sqlite3",
+      "connection": {
+        "filename": "/data/database.sqlite"
+      }
+    }
+  }
+}
+```
 
-
-3. Create a docker-compose.yml file similar to this:
+00. Create a docker-compose.yml file similar to this:
 
 ```yml
 version: "3.3"
@@ -67,18 +88,18 @@ networks:
       name: macvlan-br0
 ```
 
-3. Bring up your stack by running
+00. Bring up stack by running
 
 ```bash
 docker-compose up -d
 ```
 
-4. Log in to the Admin UI
+00. Log in to the Admin UI
 
 When your docker container is running, connect to it on port `81` for the admin interface.
 Sometimes this can take a little bit because of the entropy of keys.
 
-[http://127.0.0.1:81](http://127.0.0.1:81)
+[http://npm.daomin.example:81](http://npm.domain.example:81)
 
 Default Admin User:
 ```
