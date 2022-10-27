@@ -7,9 +7,5 @@
         "filename": "/data/database.sqlite"
       }
     }
-  },
-  "jwt": {
-    "key": "",
-    "pub": ""
   }
 }
