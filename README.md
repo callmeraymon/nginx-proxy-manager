@@ -13,7 +13,7 @@ I created this project to use docker-compose instead of the built in docker GUI.
 
 ## Requirements
 
-- Add port forwarding for port 80 and 443 to the server hosting this project, 192.168.254.222
+- Add port forwarding for port 80 and 443 to the server hosting this project on router
 - Configure DNS for nginx proxy manager
 - Ability to SSH into DSM
 
