@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+    web:
+        image: jc21/nginx-proxy-manager
+        container_name: npm
+        environment:
+            - PUID=1026
+            - PGID=100
+            - TZ=America/Los_Angeles
+        volumes:
+            - /volume1/docker/npm/config.json:/app/config/production.json
+            - /volume1/docker/npm/data:/data
+            - /volume1/docker/npm/letsencrypt:/etc/letsencrypt
+        networks:
+            default:
+                ipv4_address: 192.168.254.222
+        ports:
+            - 80:80
+            - 443:443
+            - 81:81
+        restart: always
+
+networks:
+  default:
+    external:
+      name: macvlan-br0
