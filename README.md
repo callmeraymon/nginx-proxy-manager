@@ -27,7 +27,16 @@ I won't go in to too much detail here but here are the basics for someone new to
 - [Docker Install documentation](https://docs.docker.com/install/)
 - [Docker-Compose Install documentation](https://docs.docker.com/compose/install/)
 
-2. Create a docker-compose.yml file similar to this:
+2. Create the following file structure within your docker root, typically, /volume1/docker/
+
+- /volume1/docker/npm/
+- /volume1/docker/npm/data
+- /volume1/docker/npm/letsencrypt
+
+3. create file /volume1/docker/npm/config.json
+
+
+3. Create a docker-compose.yml file similar to this:
 
 ```yml
 version: "3.3"
